@@ -1,4 +1,4 @@
-export interface HotelFilterRequest {
+export interface HotelRequest {
 	ids: string[];
 	destination: string;
 }
