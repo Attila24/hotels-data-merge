@@ -1,0 +1,30 @@
+{
+  "name": "hotels-data-merge",
+  "version": "1.0.0",
+  "description": "Basic hotel data merge application",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "server": "node ./build/server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Attila24/hotels-data-merge.git"
+  },
+  "author": "Attila Kálvin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Attila24/hotels-data-merge/issues"
+  },
+  "homepage": "https://github.com/Attila24/hotels-data-merge#readme",
+  "dependencies": {
+    "@types/es6-shim": "^0.31.39",
+    "@types/express": "^4.16.0",
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "typescript": "^3.2.1"
+  }
+}
