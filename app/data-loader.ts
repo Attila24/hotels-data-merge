@@ -1,6 +1,6 @@
 import axios, {AxiosResponse} from 'axios';
 import * as cache from 'memory-cache';
-import {Hotel} from "./dto/hotel";
+import {Hotel} from "./dto/hotel.dto";
 
 export class DataLoader {
 	public static sources = [
@@ -20,8 +20,7 @@ export class DataLoader {
 		});
 		Promise.all(promises).then((responses: AxiosResponse[]) => {
 			responses.forEach(this.parseResponse);
-			console.log(cache.get('iJhz'));
-		});
+		})
 	}
 
 	private parseResponse(resp: AxiosResponse, i: number): void {
@@ -30,7 +29,7 @@ export class DataLoader {
 
 		supplierHotels.forEach(hotel => {
 			if (Object.keys(hotel).indexOf(idField) > -1) {
-				const newHotel = new Hotel(hotel[idField]);
+				const newHotel = new Hotel();
 				console.log('saving hotel ID: ', idField, newHotel.id);
 				cache.put(newHotel.id, newHotel);
 			}
