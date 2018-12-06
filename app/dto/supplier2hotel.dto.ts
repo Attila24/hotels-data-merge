@@ -7,7 +7,7 @@ import {HotelLocation} from "./hotel-location.dto";
 export class Supplier2Hotel implements SupplierHotel {
 	amenities: HotelAmenities;
 	booking_conditions: string[];
-	destination_id: string;
+	destination_id: number;
 	details: string;
 	hotel_id: string;
 	hotel_name: string;
@@ -15,7 +15,10 @@ export class Supplier2Hotel implements SupplierHotel {
 	location: Supplier2Location;
 
 	getAmenities(): HotelAmenities {
-		return this.amenities;
+		const amenities = this.amenities;
+		amenities.general = this.amenities.general.map(HotelAmenities.transformAmenity);
+		amenities.room = this.amenities.room.map(HotelAmenities.transformAmenity);
+		return amenities;
 	}
 
 	getBookingConditions(): string[] {
@@ -26,7 +29,7 @@ export class Supplier2Hotel implements SupplierHotel {
 		return this.details;
 	}
 
-	getDestinationId(): string {
+	getDestinationId(): number {
 		return this.destination_id;
 	}
 
@@ -36,8 +39,8 @@ export class Supplier2Hotel implements SupplierHotel {
 
 	getImages(): HotelImages {
 		const images = new HotelImages();
-		images.rooms = this.images.rooms;
-		images.site = this.images.site;
+		images.rooms = this.images.rooms.map(Supplier2HotelImage.mapToHotelImage);
+		images.site = this.images.site.map(Supplier2HotelImage.mapToHotelImage);
 		return images;
 	}
 
@@ -51,11 +54,27 @@ export class Supplier2Hotel implements SupplierHotel {
 	getName(): string {
 		return this.hotel_name;
 	}
+
+	setId(id: string): void {
+		this.hotel_id = id;
+	}
 }
 
 class Supplier2HotelImages{
-	rooms: HotelImage[];
-	site: HotelImage[];
+	rooms: Supplier2HotelImage[];
+	site: Supplier2HotelImage[];
+}
+
+class Supplier2HotelImage {
+	caption: string;
+	link: string;
+
+	static mapToHotelImage(s2Image: Supplier2HotelImage): HotelImage {
+		const image = new HotelImage();
+		image.caption = s2Image.caption;
+		image.url = s2Image.link;
+		return image;
+	}
 }
 
 class Supplier2Location {

@@ -4,7 +4,7 @@ import {HotelLocation} from "./hotel-location.dto";
 
 export interface SupplierHotel {
 	getId(): string;
-	getDestinationId(): string;
+	getDestinationId(): number;
 	getName(): string;
 	getDescription(): string;
 
@@ -13,4 +13,6 @@ export interface SupplierHotel {
 	getAmenities(): HotelAmenities;
 	getImages(): HotelImages;
 	getLocation(): HotelLocation;
+
+	setId(id: string): void;
 }

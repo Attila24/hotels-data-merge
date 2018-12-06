@@ -1,10 +1,10 @@
-import {HotelLocation} from "./location.dto";
 import {HotelImages} from "./hotel-images.dto";
 import {HotelAmenities} from "./hotel-amenities.dto";
+import {HotelLocation} from "./hotel-location.dto";
 
 export class Hotel {
 	id: string;
-	destinationId: string;
+	destinationId: number;
 	name: string;
 	description: string;
 

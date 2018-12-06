@@ -8,7 +8,7 @@ export class Supplier1Hotel implements SupplierHotel {
 	City: string;
 	Country: string;
 	Description: string;
-	DestinationId: string;
+	DestinationId: number;
 	Facilities: string[];
 	Id: string;
 	Latitude: number;
@@ -18,7 +18,7 @@ export class Supplier1Hotel implements SupplierHotel {
 
 	getAmenities(): HotelAmenities {
 		const amenities = new HotelAmenities();
-		amenities.general = this.Facilities;
+		amenities.general = this.Facilities.map(HotelAmenities.transformAmenity);
 		return amenities;
 	}
 
@@ -30,7 +30,7 @@ export class Supplier1Hotel implements SupplierHotel {
 		return this.Description;
 	}
 
-	getDestinationId(): string {
+	getDestinationId(): number {
 		return this.DestinationId;
 	}
 
@@ -39,7 +39,7 @@ export class Supplier1Hotel implements SupplierHotel {
 	}
 
 	getImages(): HotelImages {
-		return new HotelImages();
+		return null;
 	}
 
 	getLocation(): HotelLocation {
@@ -54,5 +54,9 @@ export class Supplier1Hotel implements SupplierHotel {
 
 	getName(): string {
 		return this.Name;
+	}
+
+	setId(id: string): void {
+		this.Id = id;
 	}
 }
