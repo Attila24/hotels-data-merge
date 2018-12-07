@@ -3,6 +3,7 @@ import {SupplierHotel} from "./supplier-hotel";
 import {HotelAmenities} from "./hotel-amenities.dto";
 import {HotelImages} from "./hotel-images.dto";
 import {HotelLocation} from "./hotel-location.dto";
+import {Util} from '../util';
 
 export class Supplier3Hotel implements SupplierHotel {
 	address: string;
@@ -17,7 +18,7 @@ export class Supplier3Hotel implements SupplierHotel {
 
 	getAmenities(): HotelAmenities {
 		const amenities = new HotelAmenities();
-		amenities.general = this.amenities.map(HotelAmenities.transformAmenity);
+		amenities.general = this.amenities ? this.amenities.map(HotelAmenities.transformAmenity) : [];
 		return amenities;
 	}
 
@@ -26,7 +27,7 @@ export class Supplier3Hotel implements SupplierHotel {
 	}
 
 	getDescription(): string {
-		return this.info;
+		return Util.trimOrEmpty(this.info);
 	}
 
 	getDestinationId(): number {
@@ -39,25 +40,21 @@ export class Supplier3Hotel implements SupplierHotel {
 
 	getImages(): HotelImages {
 		const images = new HotelImages();
-		images.amenities = this.images.amenities.map(Supplier3HotelImage.mapToHotelImage);
-		images.rooms = this.images.rooms.map(Supplier3HotelImage.mapToHotelImage);
+		images.amenities = this.images.amenities ? this.images.amenities.map(Supplier3HotelImage.mapToHotelImage) : [];
+		images.rooms = this.images.rooms ? this.images.rooms.map(Supplier3HotelImage.mapToHotelImage) : [];
 		return images;
 	}
 
 	getLocation(): HotelLocation {
 		const location = new HotelLocation();
-		location.address = this.address;
+		location.address = Util.trimOrEmpty(this.address);
 		location.latitude = this.lat;
 		location.longitude = this.lng;
 		return location;
 	}
 
 	getName(): string {
-		return this.name;
-	}
-
-	setId(id: string): void {
-		this.id = id;
+		return Util.trimOrEmpty(this.name);
 	}
 }
 

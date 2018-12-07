@@ -1,4 +1,4 @@
 export interface HotelRequest {
 	ids: string[];
-	destination: string;
+	destination: number;
 }

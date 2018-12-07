@@ -70,10 +70,11 @@ export class DataLoader {
 	}
 
 	private saveHotel(hotelId: string): void {
-		const savedHotel = cache.get(hotelId) as Hotel;
+
 
 		for (const supplierId in this.suppliers) {
 			const supplierHotels = this.suppliers[supplierId];
+			const savedHotel = cache.get(hotelId) as Hotel;
 
 			const supplierHotel = supplierHotels.find(hotelObject => hotelObject.getId() === hotelId);
 

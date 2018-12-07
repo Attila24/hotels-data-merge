@@ -3,6 +3,7 @@ import {HotelImage} from "./hotel-image.dto";
 import {SupplierHotel} from "./supplier-hotel";
 import {HotelImages} from "./hotel-images.dto";
 import {HotelLocation} from "./hotel-location.dto";
+import {Util} from '../util';
 
 export class Supplier2Hotel implements SupplierHotel {
 	amenities: HotelAmenities;
@@ -16,17 +17,17 @@ export class Supplier2Hotel implements SupplierHotel {
 
 	getAmenities(): HotelAmenities {
 		const amenities = this.amenities;
-		amenities.general = this.amenities.general.map(HotelAmenities.transformAmenity);
-		amenities.room = this.amenities.room.map(HotelAmenities.transformAmenity);
+		amenities.general = this.amenities.general ? this.amenities.general.map(HotelAmenities.transformAmenity) : [];
+		amenities.room = this.amenities.room ? this.amenities.room.map(HotelAmenities.transformAmenity) : [];
 		return amenities;
 	}
 
 	getBookingConditions(): string[] {
-		return this.booking_conditions;
+		return this.booking_conditions ? this.booking_conditions.map(condition => condition.trim()) : [];
 	}
 
 	getDescription(): string {
-		return this.details;
+		return Util.trimOrEmpty(this.details);
 	}
 
 	getDestinationId(): number {
@@ -39,24 +40,20 @@ export class Supplier2Hotel implements SupplierHotel {
 
 	getImages(): HotelImages {
 		const images = new HotelImages();
-		images.rooms = this.images.rooms.map(Supplier2HotelImage.mapToHotelImage);
-		images.site = this.images.site.map(Supplier2HotelImage.mapToHotelImage);
+		images.rooms = this.images.rooms ? this.images.rooms.map(Supplier2HotelImage.mapToHotelImage) : [];
+		images.site = this.images.site ? this.images.site.map(Supplier2HotelImage.mapToHotelImage) : [];
 		return images;
 	}
 
 	getLocation(): HotelLocation {
 		const location = new HotelLocation();
-		location.address = this.location.address;
-		location.country = this.location.country;
+		location.address = Util.trimOrEmpty(this.location.address);
+		location.country = Util.trimOrEmpty(this.location.country);
 		return location;
 	}
 
 	getName(): string {
-		return this.hotel_name;
-	}
-
-	setId(id: string): void {
-		this.hotel_id = id;
+		return Util.trimOrEmpty(this.hotel_name);
 	}
 }
 

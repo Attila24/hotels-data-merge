@@ -13,6 +13,4 @@ export interface SupplierHotel {
 	getAmenities(): HotelAmenities;
 	getImages(): HotelImages;
 	getLocation(): HotelLocation;
-
-	setId(id: string): void;
 }
