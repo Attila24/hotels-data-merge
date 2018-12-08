@@ -4,6 +4,9 @@ import {HotelImages} from "./hotel-images.dto";
 import {HotelLocation} from "./hotel-location.dto";
 import {Util} from '../util';
 
+/**
+ * Represents the data structure provided by the first supplier.
+ */
 export class Supplier1Hotel implements SupplierHotel {
 	Address: string;
 	City: string;
@@ -45,6 +48,7 @@ export class Supplier1Hotel implements SupplierHotel {
 
 	getLocation(): HotelLocation {
 		const location = new HotelLocation();
+		// Street address is concatenated using the simple address and the postal code
 		location.address = `${Util.trimOrEmpty(this.Address)} ${Util.trimOrEmpty(this.PostalCode)}`;
 		location.city = Util.trimOrEmpty(this.City);
 		location.country = Util.trimOrEmpty(this.Country);

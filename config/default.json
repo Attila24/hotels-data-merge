@@ -1,0 +1,6 @@
+{
+  "hotels": {
+    "useCachedData": true,
+    "mergeDescriptions": true
+  }
+}

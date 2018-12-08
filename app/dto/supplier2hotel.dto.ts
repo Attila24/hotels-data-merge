@@ -5,6 +5,9 @@ import {HotelImages} from "./hotel-images.dto";
 import {HotelLocation} from "./hotel-location.dto";
 import {Util} from '../util';
 
+/**
+ * Represents the data structure provided by the second supplier.
+ */
 export class Supplier2Hotel implements SupplierHotel {
 	amenities: HotelAmenities;
 	booking_conditions: string[];
@@ -57,11 +60,17 @@ export class Supplier2Hotel implements SupplierHotel {
 	}
 }
 
+/**
+ * Represents the hotel images data structure provided by the second supplier.
+ */
 class Supplier2HotelImages{
 	rooms: Supplier2HotelImage[];
 	site: Supplier2HotelImage[];
 }
 
+/**
+ * Represents a hotel image's data structure provided by the second supplier.
+ */
 class Supplier2HotelImage {
 	caption: string;
 	link: string;
@@ -74,6 +83,9 @@ class Supplier2HotelImage {
 	}
 }
 
+/**
+ * Represents the hotel location data structure provided by the second supplier.
+ */
 class Supplier2Location {
 	address: string;
 	country: string;
