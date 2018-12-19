@@ -100,11 +100,17 @@ export class MergeUtil {
 	 */
 	static mergeLocations(hotel: Hotel, supplierHotel: SupplierHotel): HotelLocation {
 		const location = new HotelLocation();
-		location.city = MergeUtil.selectNotNullOrFirst(hotel.location.city, supplierHotel.getLocation().city);
-		location.country = MergeUtil.selectNotNullOrFirst(hotel.location.country, supplierHotel.getLocation().country, 2);
-		location.address = MergeUtil.selectNotNullOrFirst(hotel.location.address, supplierHotel.getLocation().address);
-		location.longitude = MergeUtil.selectNotNullOrFirst(hotel.location.longitude, supplierHotel.getLocation().longitude);
-		location.latitude = MergeUtil.selectNotNullOrFirst(hotel.location.latitude, supplierHotel.getLocation().latitude);
+		const supplierLocation = supplierHotel.getLocation();
+
+		location.city = hotel.location.city || supplierLocation.city;
+		location.address = hotel.location.address || supplierLocation.address;
+		location.latitude = hotel.location.latitude || supplierLocation.latitude;
+		location.longitude = hotel.location.longitude || supplierLocation.longitude;
+
+		location.country = hotel.location.country && supplierLocation.country
+				? MergeUtil.selectPreferredLength(hotel.location.country, supplierLocation.country, 2)
+				: hotel.location.country || supplierLocation.country;
+
 		return location;
 	}
 
@@ -125,28 +131,6 @@ export class MergeUtil {
 	 */
 	private static createUniqueArray(arr1: any[], arr2: any[]): any[] {
 		return Array.from(new Set([...arr1 || [], ...arr2 || []]));
-	}
-
-	/**
-	 * Returns the not NULL value from between two values.
-	 * If both values are not NULL and the preferredLength property is 0, returns first value.
-	 * If both values are not NULL and the preferredLength property is not 0, returns the value with the preferred length.
-	 * @param o1 The first value used for selection.
-	 * @param o2 The second value used for selection.
-	 * @param preferredLength (optional) The preferred length the returned string value should have.
-	 */
-	private static selectNotNullOrFirst(o1: any, o2: any, preferredLength = 0): any {
-		if (o1 && o2) {
-			return preferredLength
-					? MergeUtil.selectPreferredLength(o1 as string, o2 as string, preferredLength)
-					: o1;
-		} else if (o1 && !o2) {
-			return o1;
-		} else if (!o1 && o2) {
-			return o2;
-		} else {
-			return null;
-		}
 	}
 
 	/**
