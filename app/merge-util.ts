@@ -29,6 +29,10 @@ export class MergeUtil {
 		amenities.room = MergeUtil.createUniqueArray(
 				Util.removeSpaceFromArray(hotel.amenities.room),
 				Util.removeSpaceFromArray(supplierHotel.getAmenities().room));
+
+		// Only keep those amenities in "room" which can not be found in "general"
+		amenities.room = amenities.room.filter(amenity => amenities.general.indexOf(amenity) === -1);
+
 		return amenities;
 	}
 
@@ -39,7 +43,7 @@ export class MergeUtil {
 	 * @param supplierHotel A [[SupplierHotel]] object used for merging booking conditions.
 	 */
 	static mergeBookingConditions(hotel: Hotel, supplierHotel: SupplierHotel): string[] {
-		return MergeUtil.createUniqueArray(hotel.bookingConditions, supplierHotel.getBookingConditions());
+		return MergeUtil.createUniqueArray(hotel.bookingConditions || [], supplierHotel.getBookingConditions() || []);
 	}
 
 	/**
@@ -125,12 +129,11 @@ export class MergeUtil {
 
 	/**
 	 * Creates a new array with only unique elements in it.
-	 * If any of the provided properties are undefined or NULL, an empty array is used instead.
 	 * @param arr1 An array with any types of objects in it.
 	 * @param arr2 An array with any types of objects in it.
 	 */
 	private static createUniqueArray(arr1: any[], arr2: any[]): any[] {
-		return Array.from(new Set([...arr1 || [], ...arr2 || []]));
+		return Array.from(new Set([...arr1, ...arr2]));
 	}
 
 	/**

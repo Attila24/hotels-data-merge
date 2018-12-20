@@ -11,38 +11,31 @@ import {MergeUtil} from "./merge-util";
  * A class used for procuring, cleaning and saving hotel data.
  */
 export class DataLoader {
-
-	/**
-	 * The static sources that contain the raw hotels data.
-	 */
-	public static sources = [
-		'https://api.myjson.com/bins/gdmqa',
-		'https://api.myjson.com/bins/1fva3m',
-		'https://api.myjson.com/bins/j6kzm'
-	];
-
-	/**
-	 * A string array containing the source IDs mapped from the original URLs.
-	 */
-	public static supplierIds: string[] = DataLoader.sources.map(url => url.slice(url.lastIndexOf('/') + 1, url.length));
-
 	/**
 	 * An array containing the SupplierHotel factories based on their given ID formats.
 	 */
 	private static hotelFactories: HotelFactory[] = [
 		{
-			id: 'Id',
+			url: 'https://api.myjson.com/bins/gdmqa',
 			factory: () => new Supplier1Hotel()
 		},
 		{
-			id: 'hotel_id',
+			url: 'https://api.myjson.com/bins/1fva3m',
 			factory: () => new Supplier2Hotel()
 		},
 		{
-			id: 'id',
+			url: 'https://api.myjson.com/bins/j6kzm',
 			factory: () => new Supplier3Hotel()
 		}
 	];
+
+	/**
+	 * A string array containing the source IDs mapped from the original URLs.
+	 */
+	public static supplierIds: string[] =
+			DataLoader.hotelFactories.map((hotelFactory: HotelFactory) =>
+					hotelFactory.url.slice(hotelFactory.url.lastIndexOf('/') + 1, hotelFactory.url.length));
+
 
 	/**
 	 * A helper variable used for storing loaded SupplierHotel arrays for each given supplier.
@@ -72,9 +65,10 @@ export class DataLoader {
 	 */
 	public loadData(): Promise<void> {
 		return new Promise((resolve, reject) => {
-			const promises = DataLoader.sources.map(url => {
-				console.log('Reading URL:', url);
-				return axios.get(url);
+
+			const promises = DataLoader.hotelFactories.map((hotelFactory: HotelFactory) => {
+				console.log('Reading URL:', hotelFactory.url);
+				return axios.get(hotelFactory.url);
 			});
 
 			Promise.all(promises).then((responses: AxiosResponse[]) => {
@@ -170,7 +164,7 @@ export class DataLoader {
  * that return a new object which implements the [[SupplierHotel]] interface.
  */
 class HotelFactory {
-	id: string;
+	url: string;
 	factory: () => SupplierHotel
 }
 
